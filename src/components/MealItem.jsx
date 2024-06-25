@@ -3,15 +3,19 @@ import { currencyFormatter } from '../util/formatting.js';
 import Button from './UI/Button.jsx';
 import CartContext from './store/CartContext.jsx';
 
-export default function MealItem({meal}) {
+export default function MealItem({ meal }) {
     const cartCtx = useContext(CartContext);
-    function handleAddMeal(){
+
+    function handleAddMeal() {
         cartCtx.addItem(meal);
     }
+
+    const imageUrl = `/public/${meal.image}`;
+
     return (
         <li className="meal-item">
             <article>
-                <img src={`http://localhost:3000/${meal.image}`} alt={meal.name} />
+                <img src={imageUrl} alt={meal.name} />
                 <div>
                     <h3>{meal.name}</h3>
                     <p className="meal-item-price">
@@ -24,5 +28,5 @@ export default function MealItem({meal}) {
                 </p>
             </article>
         </li>
-    )
+    );
 }

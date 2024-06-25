@@ -1,5 +1,4 @@
 import { useContext } from "react";
-
 import Modal from "./UI/Modal";
 import CartContext from "./store/CartContext";
 import { currencyFormatter } from "../util/formatting";
@@ -20,10 +19,10 @@ export default function Checkout() {
     const cartCtx = useContext(CartContext);
     const userProgressCtx = useContext(UserProgressContext);
 
-    const { data, isLoading: isSending, error, sendRequest, clearData } = useHttp('http://localhost:3000/orders', requestConfig);
+    const { data, isLoading: isSending, error, sendRequest, clearData } = useHttp('/api/orders', requestConfig);
 
     const cartTotal = cartCtx.items.reduce(
-        (totalPrice, item) => totalPrice + item.quantity * item.price, 0          
+        (totalPrice, item) => totalPrice + item.quantity * item.price, 0
     );
 
     function handleClose() {
@@ -53,7 +52,7 @@ export default function Checkout() {
     let actions = (
         <>
             <Button type="button" textOnly onClick={handleClose}>Close</Button>
-            <Button type="submit">Submit Order</Button>
+            <Button>Submit Order</Button>
         </>
     );
 
@@ -87,7 +86,7 @@ export default function Checkout() {
                     <Input label="City" type="text" id="city" />
                 </div>
 
-                {error && <Error title="Failed to submit order" message={error} />}
+                {error && <Error title="Failed to submit error" message={error} />}
 
                 <p className="modal-actions">
                     {actions}
