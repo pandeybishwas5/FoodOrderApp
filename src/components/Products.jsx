@@ -9,7 +9,7 @@ export default function Products(){
         data: loadedMeals,
         isLoading,
         error,
-    } = useHttp('http://localhost:3000/meals', requestConfig, []);
+    } = useHttp('/backend/meals', requestConfig, []);
 
     if (isLoading) {
         return <p className="center">Fetching Meals...</p>
