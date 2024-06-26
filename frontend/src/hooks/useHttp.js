@@ -1,17 +1,19 @@
 import { useCallback, useEffect, useState } from "react";
 
+const baseURL = process.env.REACT_APP_BASE_URL || '';
+
 async function sendHttpRequest(url, config) {
-    const response = await fetch(url, config);
+    const response = await fetch(baseURL + url, config);
 
     const resData = await response.json();
 
-     if (!response.ok) {
+    if (!response.ok) {
         throw new Error(
             resData.message || 'Something went wrong, Failed to send request.'
         );
-     }
+    }
 
-     return resData;
+    return resData;
 }
 
 export default function useHttp(url, config, initialData) {
@@ -26,10 +28,10 @@ export default function useHttp(url, config, initialData) {
     const sendRequest = useCallback(async function sendRequest(data) {
         setIsLoading(true);
         try {
-          const resData = await sendHttpRequest(`/api${url}`, {...config, body: data});
-          setData(resData);
+            const resData = await sendHttpRequest(url, {...config, body: data});
+            setData(resData);
         } catch (error) {
-           setError(error.message || 'Something Went Wrong!');
+            setError(error.message || 'Something Went Wrong!');
         }
         setIsLoading(false);        
     }, [url, config]);

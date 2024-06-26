@@ -10,7 +10,7 @@ export default function MealItem({ meal }) {
         cartCtx.addItem(meal);
     }
 
-    const imageUrl = `/public/${meal.image}`;
+    const imageUrl = `http://localhost:3000/${meal.image}`;
 
     return (
         <li className="meal-item">
