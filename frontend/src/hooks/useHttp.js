@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
 
-const baseURL = process.env.REACT_APP_BASE_URL || '';
+const baseURL = 'http://localhost:3000';
 
 async function sendHttpRequest(url, config) {
     const response = await fetch(baseURL + url, config);

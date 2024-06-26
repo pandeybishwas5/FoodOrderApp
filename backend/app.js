@@ -1,4 +1,5 @@
 import fs from 'node:fs/promises';
+
 import bodyParser from 'body-parser';
 import express from 'express';
 
@@ -22,24 +23,34 @@ app.get('/meals', async (req, res) => {
 app.post('/orders', async (req, res) => {
   const orderData = req.body.order;
 
-  if (!orderData || !orderData.items || orderData.items.length === 0) {
-    return res.status(400).json({ message: 'Missing data.' });
+  if (orderData === null || orderData.items === null || orderData.items.length === 0) {
+    return res
+      .status(400)
+      .json({ message: 'Missing data.' });
   }
 
-  const { customer } = orderData;
   if (
-    !customer.email || !customer.email.includes('@') ||
-    !customer.name || customer.name.trim() === '' ||
-    !customer.street || customer.street.trim() === '' ||
-    !customer['postal-code'] || customer['postal-code'].trim() === '' ||
-    !customer.city || customer.city.trim() === ''
+    orderData.customer.email === null ||
+    !orderData.customer.email.includes('@') ||
+    orderData.customer.name === null ||
+    orderData.customer.name.trim() === '' ||
+    orderData.customer.street === null ||
+    orderData.customer.street.trim() === '' ||
+    orderData.customer['postal-code'] === null ||
+    orderData.customer['postal-code'].trim() === '' ||
+    orderData.customer.city === null ||
+    orderData.customer.city.trim() === ''
   ) {
     return res.status(400).json({
-      message: 'Missing data: Email, name, street, postal code or city is missing.',
+      message:
+        'Missing data: Email, name, street, postal code or city is missing.',
     });
   }
 
-  const newOrder = { ...orderData, id: (Math.random() * 1000).toString() };
+  const newOrder = {
+    ...orderData,
+    id: (Math.random() * 1000).toString(),
+  };
   const orders = await fs.readFile('./data/orders.json', 'utf8');
   const allOrders = JSON.parse(orders);
   allOrders.push(newOrder);
@@ -55,4 +66,4 @@ app.use((req, res) => {
   res.status(404).json({ message: 'Not found' });
 });
 
-export default app;
+app.listen(3000);
