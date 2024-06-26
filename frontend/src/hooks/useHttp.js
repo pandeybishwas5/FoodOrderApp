@@ -26,7 +26,7 @@ export default function useHttp(url, config, initialData) {
     const sendRequest = useCallback(async function sendRequest(data) {
         setIsLoading(true);
         try {
-          const resData = await sendHttpRequest(url, {...config, body: data});
+          const resData = await sendHttpRequest(`/api${url}`, {...config, body: data});
           setData(resData);
         } catch (error) {
            setError(error.message || 'Something Went Wrong!');
